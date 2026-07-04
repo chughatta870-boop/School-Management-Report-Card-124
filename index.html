@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="theme-color" content="#1c2b4a">
+<title>GHS 124NB — Report Card Register</title>
+<meta name="description" content="Offline report card & student record manager for GHS 124NB">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%231c2b4a'/%3E%3Ccircle cx='50' cy='50' r='40' fill='none' stroke='%23b8894f' stroke-width='2'/%3E%3Ctext x='50' y='58' font-size='30' text-anchor='middle' fill='%23f6f1e4' font-family='Georgia,serif'%3E124%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="seal-brand">
+      <div class="seal-mini" aria-hidden="true">
+        <span>124</span>
+      </div>
+      <div class="brand-text">
+        <strong id="brandSchoolName">GHS 124NB</strong>
+        <small>Report Card Register</small>
+      </div>
+    </div>
+
+    <div class="class-picker">
+      <label for="classSelect">Class</label>
+      <select id="classSelect"></select>
+    </div>
+
+    <ul class="nav-list">
+      <li><button class="nav-btn active" data-view="dashboard">📖 Dashboard</button></li>
+      <li><button class="nav-btn" data-view="students">🧒 Students</button></li>
+      <li><button class="nav-btn" data-view="subjects">📚 Subjects</button></li>
+      <li><button class="nav-btn" data-view="marks">✍️ Marks Entry</button></li>
+      <li><button class="nav-btn" data-view="reports">🎓 Report Cards</button></li>
+      <li><button class="nav-btn" data-view="settings">⚙️ Settings</button></li>
+    </ul>
+
+    <div class="sidebar-foot">
+      <span id="installHint" class="install-hint" hidden>Add to Home Screen for offline use →
+        <button id="installBtn" class="btn-ghost">Install</button>
+      </span>
+      <small>Works fully offline · data stays on this device</small>
+    </div>
+  </nav>
+
+  <button id="menuToggle" class="menu-toggle" aria-label="Toggle menu">☰</button>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- DASHBOARD -->
+    <section id="view-dashboard" class="view active">
+      <header class="view-head">
+        <h1>Dashboard</h1>
+        <p class="sub">A quick ledger of where things stand for <span id="dashClassName">—</span>.</p>
+      </header>
+      <div class="stat-row">
+        <div class="stat-card">
+          <span class="stat-num" id="statStudents">0</span>
+          <span class="stat-label">Students enrolled</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" id="statSubjects">0</span>
+          <span class="stat-label">Subjects configured</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" id="statTermsFilled">0</span>
+          <span class="stat-label">Terms with marks entered</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" id="statAvg">—</span>
+          <span class="stat-label">Class average (latest term)</span>
+        </div>
+      </div>
+
+      <div class="ledger-panel">
+        <h2>Class roll — quick glance</h2>
+        <div class="table-wrap">
+          <table class="ledger-table" id="dashRollTable">
+            <thead><tr><th>Roll No.</th><th>Name</th><th>Father's Name</th><th>Latest %</th><th>Grade</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <p class="empty-hint" id="dashEmptyHint" hidden>No students yet — head to the Students tab to add your first entry.</p>
+      </div>
+    </section>
+
+    <!-- STUDENTS -->
+    <section id="view-students" class="view">
+      <header class="view-head">
+        <h1>Students</h1>
+        <p class="sub">Manage the roll for <span id="studClassName">—</span>.</p>
+      </header>
+
+      <form id="studentForm" class="inline-form">
+        <input type="hidden" id="studentId">
+        <div class="field">
+          <label for="studRoll">Roll No.</label>
+          <input type="text" id="studRoll" required placeholder="e.g. 07">
+        </div>
+        <div class="field grow">
+          <label for="studName">Student Name</label>
+          <input type="text" id="studName" required placeholder="Full name">
+        </div>
+        <div class="field grow">
+          <label for="studFather">Father's Name</label>
+          <input type="text" id="studFather" placeholder="Optional">
+        </div>
+        <div class="field">
+          <label for="studDOB">Date of Birth</label>
+          <input type="date" id="studDOB">
+        </div>
+        <div class="field form-actions">
+          <button type="submit" class="btn-primary" id="studentSubmitBtn">Add Student</button>
+          <button type="button" class="btn-ghost" id="studentCancelBtn" hidden>Cancel</button>
+        </div>
+      </form>
+
+      <div class="table-wrap">
+        <table class="ledger-table" id="studentsTable">
+          <thead><tr><th>Roll No.</th><th>Name</th><th>Father's Name</th><th>DOB</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="empty-hint" id="studEmptyHint" hidden>This class has no students yet. Add one above.</p>
+    </section>
+
+    <!-- SUBJECTS -->
+    <section id="view-subjects" class="view">
+      <header class="view-head">
+        <h1>Subjects</h1>
+        <p class="sub">Set the subject list and maximum marks for <span id="subjClassName">—</span>.</p>
+      </header>
+
+      <form id="subjectForm" class="inline-form">
+        <input type="hidden" id="subjectId">
+        <div class="field grow">
+          <label for="subjName">Subject Name</label>
+          <input type="text" id="subjName" required placeholder="e.g. Urdu, Mathematics">
+        </div>
+        <div class="field">
+          <label for="subjMax">Max Marks</label>
+          <input type="number" id="subjMax" required value="100" min="1" max="1000">
+        </div>
+        <div class="field">
+          <label for="subjMin">Min Marks (Pass)</label>
+          <input type="number" id="subjMin" required value="33" min="0" max="1000">
+        </div>
+        <div class="field form-actions">
+          <button type="submit" class="btn-primary" id="subjectSubmitBtn">Add Subject</button>
+          <button type="button" class="btn-ghost" id="subjectCancelBtn" hidden>Cancel</button>
+        </div>
+      </form>
+
+      <div class="table-wrap">
+        <table class="ledger-table" id="subjectsTable">
+          <thead><tr><th>#</th><th>Subject</th><th>Max Marks</th><th>Min Marks (Pass)</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="empty-hint" id="subjEmptyHint" hidden>No subjects yet for this class. Add subjects above — every class can have its own list.</p>
+
+      <details class="copy-panel">
+        <summary>Copy subjects from another class</summary>
+        <div class="copy-row">
+          <select id="copyFromClass"></select>
+          <button class="btn-ghost" id="copySubjectsBtn">Copy into <span id="copyIntoClassName">—</span></button>
+        </div>
+      </details>
+    </section>
+
+    <!-- MARKS ENTRY -->
+    <section id="view-marks" class="view">
+      <header class="view-head">
+        <h1>Marks Entry</h1>
+        <p class="sub">Recording marks for <span id="marksClassName">—</span>.</p>
+      </header>
+
+      <div class="term-bar">
+        <label for="termSelect">Term</label>
+        <select id="termSelect"></select>
+        <button class="btn-ghost" id="manageTermsBtn" type="button">Manage terms</button>
+        <span class="save-indicator" id="marksSaveIndicator"></span>
+      </div>
+
+      <div class="table-wrap" id="marksTableWrap">
+        <table class="ledger-table marks-grid" id="marksTable">
+          <thead><tr id="marksHeadRow"><th>Roll</th><th>Name</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="empty-hint" id="marksEmptyHint" hidden>Add students and subjects first before entering marks.</p>
+    </section>
+
+    <!-- REPORT CARDS -->
+    <section id="view-reports" class="view">
+      <header class="view-head">
+        <h1>Report Cards</h1>
+        <p class="sub">Generate & print result cards for <span id="reportClassName">—</span>.</p>
+      </header>
+
+      <div class="term-bar">
+        <label for="reportTermSelect">Term</label>
+        <select id="reportTermSelect"></select>
+        <label for="reportStudentSelect">Student</label>
+        <select id="reportStudentSelect"><option value="__all__">All students</option></select>
+        <button class="btn-primary" id="generateReportsBtn" type="button">Preview</button>
+        <button class="btn-ghost" id="printReportsBtn" type="button">Print</button>
+      </div>
+
+      <p class="empty-hint" id="reportEmptyHint" hidden>No marks recorded for this term yet.</p>
+      <p class="hint" style="margin:-6px 0 14px;">A student is marked <strong>FAIL</strong> overall if any single subject falls below its minimum passing marks — even if the overall percentage looks fine.</p>
+      <div id="reportCardsHost"></div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section id="view-settings" class="view">
+      <header class="view-head">
+        <h1>Settings</h1>
+        <p class="sub">School details, grading scale and backup.</p>
+      </header>
+
+      <form id="settingsForm" class="settings-form">
+        <div class="field">
+          <label for="setSchoolName">School Name</label>
+          <input type="text" id="setSchoolName">
+        </div>
+        <div class="field">
+          <label for="setSchoolAddress">Address</label>
+          <input type="text" id="setSchoolAddress">
+        </div>
+        <div class="field">
+          <label for="setSession">Academic Session</label>
+          <input type="text" id="setSession" placeholder="e.g. 2025–2026">
+        </div>
+        <div class="field">
+          <label for="setPrincipal">Principal / Headteacher Name</label>
+          <input type="text" id="setPrincipal">
+        </div>
+        <button type="submit" class="btn-primary">Save Settings</button>
+      </form>
+
+      <div class="grade-scale-panel">
+        <h2>Grading Scale <small>(auto-shown on report cards, based on percentage)</small></h2>
+        <table class="ledger-table" id="gradeScaleTable">
+          <thead><tr><th>Grade</th><th>From %</th><th>To %</th><th>Remarks</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="danger-panel">
+        <h2>Data</h2>
+        <div class="danger-row">
+          <button class="btn-ghost" id="exportDataBtn" type="button">Export backup (.json)</button>
+          <label class="btn-ghost file-btn">Import backup
+            <input type="file" id="importDataInput" accept="application/json" hidden>
+          </label>
+          <button class="btn-danger" id="resetDataBtn" type="button">Reset all data</button>
+        </div>
+        <p class="hint">Everything is stored only on this device (localStorage). Export a backup before clearing browser data.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
