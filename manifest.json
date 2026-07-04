@@ -1,0 +1,31 @@
+{
+  "name": "GHS 124NB — Report Card Register",
+  "short_name": "GHS 124NB",
+  "description": "Offline student record and report card manager for GHS 124NB — classes Kachi (KG) through Class 8.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f6f1e4",
+  "theme_color": "#1c2b4a",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' fill='%231c2b4a'/%3E%3Ccircle cx='96' cy='96' r='72' fill='none' stroke='%23b8894f' stroke-width='4'/%3E%3Ctext x='96' y='110' font-size='54' text-anchor='middle' fill='%23f6f1e4' font-family='Georgia,serif' font-weight='bold'%3E124%3C/text%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%231c2b4a'/%3E%3Ccircle cx='256' cy='256' r='192' fill='none' stroke='%23b8894f' stroke-width='10'/%3E%3Ctext x='256' y='290' font-size='144' text-anchor='middle' fill='%23f6f1e4' font-family='Georgia,serif' font-weight='bold'%3E124%3C/text%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='28' fill='%231c2b4a'/%3E%3Ccircle cx='96' cy='96' r='64' fill='none' stroke='%23b8894f' stroke-width='4'/%3E%3Ctext x='96' y='110' font-size='48' text-anchor='middle' fill='%23f6f1e4' font-family='Georgia,serif' font-weight='bold'%3E124%3C/text%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
